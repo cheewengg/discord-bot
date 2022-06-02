@@ -10,7 +10,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const builders_1 = require("@discordjs/builders");
-module.exports = {
+exports.default = {
     data: new builders_1.SlashCommandBuilder()
         .setName("user")
         .setDescription("Replies with user info!"),

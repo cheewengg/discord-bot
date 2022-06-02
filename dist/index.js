@@ -9,11 +9,6 @@ const node_path_1 = __importDefault(require("node:path"));
 const discord_js_1 = require("discord.js");
 const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
-// interface Event {
-//   name: string;
-//   once?: boolean;
-//   execute(args: any[]): void;
-// }
 const client = new discord_js_1.Client({
     intents: [discord_js_1.Intents.FLAGS.GUILDS, discord_js_1.Intents.FLAGS.GUILD_MESSAGES],
 });
@@ -22,10 +17,9 @@ const commandsPath = node_path_1.default.join(__dirname, "commands");
 const commandFiles = node_fs_1.default
     .readdirSync(commandsPath)
     .filter((file) => file.endsWith(".js"));
-console.log(commandFiles);
 for (const file of commandFiles) {
     const filePath = node_path_1.default.join(commandsPath, file);
-    const command = require(filePath);
+    const command = require(filePath).default;
     exports.commands.set(command.data.name, command);
 }
 const eventsPath = node_path_1.default.join(__dirname, "events");

@@ -12,11 +12,22 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const builders_1 = require("@discordjs/builders");
 exports.default = {
     data: new builders_1.SlashCommandBuilder()
-        .setName("ping")
-        .setDescription("Replies with Pong!"),
+        .setName("add")
+        .setDescription("Adds two numbers")
+        .addIntegerOption((option) => option
+        .setName("num1")
+        .setDescription("the first number")
+        .setRequired(true))
+        .addIntegerOption((option) => option
+        .setName("num2")
+        .setDescription("the second number")
+        .setRequired(true)),
     execute(interaction) {
         return __awaiter(this, void 0, void 0, function* () {
-            yield interaction.reply("Pong!");
+            const { options } = interaction;
+            const num1 = options.getInteger("num1");
+            const num2 = options.getInteger("num2");
+            yield interaction.reply({ content: `The sum is ${num1 + num2}` });
         });
     },
 };

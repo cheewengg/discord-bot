@@ -10,12 +10,6 @@ interface Command {
   execute(interaction: CommandInteraction): void;
 }
 
-// interface Event {
-//   name: string;
-//   once?: boolean;
-//   execute(args: any[]): void;
-// }
-
 const client = new Client({
   intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES],
 });
@@ -28,7 +22,7 @@ const commandFiles = fs
 
 for (const file of commandFiles) {
   const filePath = path.join(commandsPath, file);
-  const command = require(filePath);
+  const command = require(filePath).default;
   commands.set(command.data.name, command);
 }
 
