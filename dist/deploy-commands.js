@@ -19,7 +19,7 @@ const commandFiles = node_fs_1.default
     .filter((file) => file.endsWith(".js"));
 for (const file of commandFiles) {
     const filePath = node_path_1.default.join(commandsPath, file);
-    const command = require(filePath);
+    const command = require(filePath).default;
     commands.push(command.data.toJSON());
 }
 const rest = new rest_1.REST({ version: "9" }).setToken(token);
