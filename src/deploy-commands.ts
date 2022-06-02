@@ -3,6 +3,7 @@ import path from "node:path";
 import { REST } from "@discordjs/rest";
 import { Routes } from "discord-api-types/v9";
 import dotenv from "dotenv";
+import { getJSFiles } from "./util";
 dotenv.config();
 
 const clientId = process.env.CLIENTID!;
@@ -11,12 +12,9 @@ const token = process.env.TOKEN!;
 
 const commands = [];
 const commandsPath = path.join(__dirname, "commands");
-const commandFiles = fs
-  .readdirSync(commandsPath)
-  .filter((file) => file.endsWith(".js"));
+const commandFiles = getJSFiles(commandsPath);
 
-for (const file of commandFiles) {
-  const filePath = path.join(commandsPath, file);
+for (const filePath of commandFiles) {
   const command = require(filePath).default;
   commands.push(command.data.toJSON());
 }

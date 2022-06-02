@@ -3,6 +3,7 @@ import path from "node:path";
 import { Client, Collection, Intents, CommandInteraction } from "discord.js";
 import { SlashCommandBuilder } from "@discordjs/builders";
 import dotenv from "dotenv";
+import { getJSFiles } from "./util";
 dotenv.config();
 
 interface Command {
@@ -16,12 +17,9 @@ const client = new Client({
 
 export const commands = new Collection<string, Command>();
 const commandsPath = path.join(__dirname, "commands");
-const commandFiles = fs
-  .readdirSync(commandsPath)
-  .filter((file) => file.endsWith(".js"));
+const commandFiles = getJSFiles(commandsPath);
 
-for (const file of commandFiles) {
-  const filePath = path.join(commandsPath, file);
+for (const filePath of commandFiles) {
   const command = require(filePath).default;
   commands.set(command.data.name, command);
 }

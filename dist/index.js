@@ -8,17 +8,15 @@ const node_fs_1 = __importDefault(require("node:fs"));
 const node_path_1 = __importDefault(require("node:path"));
 const discord_js_1 = require("discord.js");
 const dotenv_1 = __importDefault(require("dotenv"));
+const util_1 = require("./util");
 dotenv_1.default.config();
 const client = new discord_js_1.Client({
     intents: [discord_js_1.Intents.FLAGS.GUILDS, discord_js_1.Intents.FLAGS.GUILD_MESSAGES],
 });
 exports.commands = new discord_js_1.Collection();
 const commandsPath = node_path_1.default.join(__dirname, "commands");
-const commandFiles = node_fs_1.default
-    .readdirSync(commandsPath)
-    .filter((file) => file.endsWith(".js"));
-for (const file of commandFiles) {
-    const filePath = node_path_1.default.join(commandsPath, file);
+const commandFiles = (0, util_1.getJSFiles)(commandsPath);
+for (const filePath of commandFiles) {
     const command = require(filePath).default;
     exports.commands.set(command.data.name, command);
 }
