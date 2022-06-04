@@ -9,26 +9,27 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const index_js_1 = require("../index.js");
+const builders_1 = require("@discordjs/builders");
 exports.default = {
-    name: "interactionCreate",
+    data: new builders_1.SlashCommandBuilder()
+        .setName("create-role")
+        .setDescription("Create role")
+        .addStringOption((option) => option.setName("role").setDescription("Enter role name").setRequired(true)),
     execute(interaction) {
         return __awaiter(this, void 0, void 0, function* () {
-            if (!interaction.isCommand())
-                return;
-            const command = index_js_1.commands.get(interaction.commandName);
-            if (!command)
-                return;
-            try {
-                yield command.execute(interaction);
-            }
-            catch (error) {
-                console.error(error);
-                yield interaction.reply({
-                    content: "There was an error while executing this command!",
-                    ephemeral: true,
+            const { options, guild } = interaction;
+            const roleName = options.getString("role");
+            let message;
+            if (guild.roles.cache.find((role) => role.name === roleName))
+                message = `${roleName} already exist. Please choose another role name!`;
+            else {
+                const role = yield guild.roles.create({
+                    name: roleName,
                 });
+                console.log(role);
+                message = `Role ${roleName} created!`;
             }
+            yield interaction.reply({ content: message, ephemeral: true });
         });
     },
 };

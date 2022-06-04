@@ -1,6 +1,6 @@
 import { Client } from "discord.js";
 
-module.exports = {
+export default {
   name: "ready",
   once: true,
   execute(client: Client) {

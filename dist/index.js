@@ -26,7 +26,7 @@ const eventFiles = node_fs_1.default
     .filter((file) => file.endsWith(".js"));
 for (const file of eventFiles) {
     const filePath = node_path_1.default.join(eventsPath, file);
-    const event = require(filePath);
+    const event = require(filePath).default;
     if (event.once) {
         client.once(event.name, (...args) => event.execute(...args));
     }

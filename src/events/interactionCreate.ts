@@ -1,7 +1,7 @@
 import { CommandInteraction } from "discord.js";
 import { commands } from "../index.js";
 
-module.exports = {
+export default {
   name: "interactionCreate",
   async execute(interaction: CommandInteraction) {
     if (!interaction.isCommand()) return;
