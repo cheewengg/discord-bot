@@ -1,17 +1,23 @@
-import { GuildMember } from "discord.js";
+import { Collection, GuildMember, GuildChannel } from "discord.js";
+import { getUser, getGuild } from "../util/method";
 
 export default {
   name: "guildMemberRemove",
   async execute(guildMember: GuildMember) {
-    console.log(guildMember);
-    // const { channels } = guildMember;
-    // // remove public and private guild channel if no members left
-    // const publicChannel = channels.cache.filter(
-    //   (channel) => channel.parentId === process.env.PUBLIC_CHANNEL_ID
-    // );
+    const { user, guild } = guildMember;
+    const discordUrl = user.username + "#" + user.discriminator;
 
-    // const privateChannel = channels.cache.filter(
-    //   (channel) => channel.parentId === process.env.PRIVATE_CHANNEL_ID
-    // );
+    const userInfo = getUser(discordUrl)!;
+    const guildInfo = getGuild(userInfo.guildId)!;
+
+    // remove public and private guild channel if no members left (excld admin and bot)
+    const channels = guild.channels.cache.filter(
+      (channel) => channel.name === guildInfo.name.toLowerCase()
+    ) as Collection<string, GuildChannel>;
+
+    for (const channel of channels) {
+      const [name, details] = channel;
+      if (details.members.size <= 2) guild.channels.delete(name);
+    }
   },
 };

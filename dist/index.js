@@ -14,6 +14,7 @@ const client = new discord_js_1.Client({
     intents: [
         discord_js_1.Intents.FLAGS.GUILDS,
         discord_js_1.Intents.FLAGS.GUILD_MEMBERS,
+        discord_js_1.Intents.FLAGS.GUILD_PRESENCES,
         discord_js_1.Intents.FLAGS.GUILD_MESSAGES,
     ],
 });

@@ -9,19 +9,22 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const method_1 = require("../util/method");
 exports.default = {
     name: "guildMemberRemove",
     execute(guildMember) {
         return __awaiter(this, void 0, void 0, function* () {
-            console.log(guildMember);
-            // const { channels } = guildMember;
-            // // remove public and private guild channel if no members left
-            // const publicChannel = channels.cache.filter(
-            //   (channel) => channel.parentId === process.env.PUBLIC_CHANNEL_ID
-            // );
-            // const privateChannel = channels.cache.filter(
-            //   (channel) => channel.parentId === process.env.PRIVATE_CHANNEL_ID
-            // );
+            const { user, guild } = guildMember;
+            const discordUrl = user.username + "#" + user.discriminator;
+            const userInfo = (0, method_1.getUser)(discordUrl);
+            const guildInfo = (0, method_1.getGuild)(userInfo.guildId);
+            // remove public and private guild channel if no members left (excld admin and bot)
+            const channels = guild.channels.cache.filter((channel) => channel.name === guildInfo.name.toLowerCase());
+            for (const channel of channels) {
+                const [name, details] = channel;
+                if (details.members.size <= 2)
+                    guild.channels.delete(name);
+            }
         });
     },
 };
