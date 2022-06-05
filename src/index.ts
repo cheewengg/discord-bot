@@ -3,7 +3,7 @@ import path from "node:path";
 import { Client, Collection, Intents, CommandInteraction } from "discord.js";
 import { SlashCommandBuilder } from "@discordjs/builders";
 import dotenv from "dotenv";
-import { getJSFiles } from "./util";
+import { getJSFiles } from "./util/method";
 dotenv.config();
 
 interface Command {
@@ -12,7 +12,11 @@ interface Command {
 }
 
 const client = new Client({
-  intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES],
+  intents: [
+    Intents.FLAGS.GUILDS,
+    Intents.FLAGS.GUILD_MEMBERS,
+    Intents.FLAGS.GUILD_MESSAGES,
+  ],
 });
 
 export const commands = new Collection<string, Command>();
@@ -40,4 +44,4 @@ for (const file of eventFiles) {
   }
 }
 
-client.login(process.env.TOKEN);
+client.login(process.env.TOKEN_ID);

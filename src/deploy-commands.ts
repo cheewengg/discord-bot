@@ -2,12 +2,12 @@ import path from "node:path";
 import { REST } from "@discordjs/rest";
 import { Routes } from "discord-api-types/v9";
 import dotenv from "dotenv";
-import { getJSFiles } from "./util";
+import { getJSFiles } from "./util/method";
 dotenv.config();
 
-const clientId = process.env.CLIENTID!;
-const guildId = process.env.GUILDID!;
-const token = process.env.TOKEN!;
+const clientId = process.env.CLIENT_ID!;
+const guildId = process.env.GUILD_ID!;
+const token = process.env.TOKEN_ID!;
 
 const commands = [];
 const commandsPath = path.join(__dirname, "commands");

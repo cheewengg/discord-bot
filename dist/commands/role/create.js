@@ -26,7 +26,7 @@ exports.default = {
                 const role = yield guild.roles.create({
                     name: roleName,
                 });
-                console.log(role);
+                // KIV set permission
                 message = `Role ${roleName} created!`;
             }
             yield interaction.reply({ content: message, ephemeral: true });

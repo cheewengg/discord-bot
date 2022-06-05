@@ -8,14 +8,18 @@ const node_fs_1 = __importDefault(require("node:fs"));
 const node_path_1 = __importDefault(require("node:path"));
 const discord_js_1 = require("discord.js");
 const dotenv_1 = __importDefault(require("dotenv"));
-const util_1 = require("./util");
+const method_1 = require("./util/method");
 dotenv_1.default.config();
 const client = new discord_js_1.Client({
-    intents: [discord_js_1.Intents.FLAGS.GUILDS, discord_js_1.Intents.FLAGS.GUILD_MESSAGES],
+    intents: [
+        discord_js_1.Intents.FLAGS.GUILDS,
+        discord_js_1.Intents.FLAGS.GUILD_MEMBERS,
+        discord_js_1.Intents.FLAGS.GUILD_MESSAGES,
+    ],
 });
 exports.commands = new discord_js_1.Collection();
 const commandsPath = node_path_1.default.join(__dirname, "commands");
-const commandFiles = (0, util_1.getJSFiles)(commandsPath);
+const commandFiles = (0, method_1.getJSFiles)(commandsPath);
 for (const filePath of commandFiles) {
     const command = require(filePath).default;
     exports.commands.set(command.data.name, command);
@@ -34,4 +38,4 @@ for (const file of eventFiles) {
         client.on(event.name, (...args) => event.execute(...args));
     }
 }
-client.login(process.env.TOKEN);
+client.login(process.env.TOKEN_ID);
